@@ -1,0 +1,23 @@
+{
+  "libs": [
+    "./libs/tern/defs/reserved",
+    "./libs/tern/defs/lodash",
+    "browser",
+    "chai",
+    "ecma5",
+    "ecma6",
+    "browser",
+    "jquery"
+  ],
+  "loadEagerly": [],
+  "async": true,
+  "plugins": {
+    "modules": {},
+    "node": {},
+    "node-express": {},
+    "angular": {},
+    "requirejs": {},
+    "doc_comment": {},
+    "es_modules": true
+  }
+}

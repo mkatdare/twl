@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>The WebListers</title>
+		<link rel="stylesheet" href="/stylesheets/font-awesome-4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+		
+		<script src="/javascripts/vendor/angular.min.js"></script>
+		<script src="/javascripts/vendor/angular-ui-router.js"></script>
+		<script src="/javascripts/angularapp.js"></script>
+	</head>
+	<body ng-app="twl">
+		<nav class="navbar navbar-default pull-right" ng-controller="NavCtrl">
+			<ul class="nav navbar-nav">
+                <li><a href="https://www.facebook.com/theweblisters/"><i class="fa fa-facebook fa-2x"></i></a></li>
+                <li><a href="https://twitter.com/theweblistersin"><i class="fa fa-twitter fa-2x"></i></a></li>
+                <li><a href="mailto:info@theweblisters.com"><i class="fa fa-envelope fa-2x"></i></a></li>
+				<li ng-show="isLoggedIn()"><a href='#/users/{{currUser._id}}'>{{currentUser()}}</a></li>
+				<li ng-show="isLoggedIn()"><a href="" ng-click="logout()">Log Out</a></li>
+				<li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
+				<li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
+			</ul>
+		</nav>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<ui-view></ui-view>
+			</div>
+		</div>
+	</body>
+</html>
