@@ -1,0 +1,11 @@
+{
+  "directory": "public/javascripts/vendor",
+  "analytics": false,
+  "timeout": 120000,
+  "allow_root": true,
+  "registry": {
+    "search": [
+      "https://bower.herokuapp.com"
+    ]
+  }
+}

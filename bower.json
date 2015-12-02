@@ -1,0 +1,26 @@
+{
+  "name": "twl",
+  "description": "twl",
+  "main": "app.js",
+  "authors": [
+    "Mandar Katdare <mandar.2101@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mkatdare/twl",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/javascripts/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-ui-router": "~0.2.15",
+    "font-awesome": "~4.5.0",
+    "bootstrap": "~3.3.6"
+  }
+}
