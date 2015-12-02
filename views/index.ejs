@@ -14,7 +14,7 @@
                 <li><a href="https://www.facebook.com/theweblisters/"><i class="fa fa-facebook fa-2x"></i></a></li>
                 <li><a href="https://twitter.com/theweblistersin"><i class="fa fa-twitter fa-2x"></i></a></li>
                 <li><a href="mailto:info@theweblisters.com"><i class="fa fa-envelope fa-2x"></i></a></li>
-				<li ng-show="isLoggedIn()"><a href='#/users/{{currUser._id}}'>{{currentUser()}}</a></li>
+				<li ng-show="isLoggedIn()"><a href='/#/users/{{userDetails()._id}}'>{{currentUser()}}</a></li>
 				<li ng-show="isLoggedIn()"><a href="" ng-click="logout()">Log Out</a></li>
 				<li ng-hide="isLoggedIn()"><a href="/#/login">Log In</a></li>
 				<li ng-hide="isLoggedIn()"><a href="/#/register">Register</a></li>
