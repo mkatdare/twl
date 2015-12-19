@@ -8,7 +8,7 @@ function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
-      templateUrl: '/views/blog/bloghome.html',
+      templateUrl: '/views/site/home.html',
       controller: 'MainCtrl',
 	  resolve: {
 		  postPromise: ['blogposts', function(posts){
@@ -18,7 +18,7 @@ function($stateProvider, $urlRouterProvider) {
     })
 	.state('posts', {
 		url: '/posts/{id}',
-		templateUrl: '/views/blog/blogpost.html',
+		templateUrl: '/views/site/site.html',
 		controller: 'PostCtrl',
 		resolve: {
 			post: ['$stateParams', 'blogposts', function($stateParams, posts){
@@ -28,7 +28,7 @@ function($stateProvider, $urlRouterProvider) {
 	})
 	.state('submit', {
 		url: '/submit',
-		templateUrl: '/views/blog/blogsubmit.html',
+		templateUrl: '/views/site/sitesubmit.html',
 		controller: 'SubmitCtrl'
 	})
 	.state('login', {

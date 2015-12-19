@@ -1,0 +1,43 @@
+{
+  "name": "angular-image-upload",
+  "version": "1.0.12",
+  "authors": [
+    "Luke Madera <luke.madera@gmail.com>"
+  ],
+  "description": "AngularJS image upload directive",
+  "keywords": [
+    "angular",
+    "AngularJS",
+    "image",
+    "upload",
+    "image-upload",
+    "directive"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.2",
+    "angular-animate": "~1.2.2",
+    "angular-sanitize": "~1.2.2",
+    "angular-touch": "~1.2.2",
+    "angular-area-select": "latest"
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/jackrabbitsgroup/angular-image-upload",
+  "_release": "1.0.12",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.12",
+    "commit": "94abcf1bdb48717ec86f369929fcd7c558238045"
+  },
+  "_source": "git://github.com/jackrabbitsgroup/angular-image-upload.git",
+  "_target": "~1.0.12",
+  "_originalSource": "angular-image-upload",
+  "_direct": true
+}
