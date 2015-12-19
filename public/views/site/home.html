@@ -1,25 +1,25 @@
 <div class="page-header">
-	<h1>The Weblisters Blog</h1>
+	<h1>The Weblisters</h1>
 </div>
-<div ng-repeat="post in posts | orderBy:'-upvotes'">
+<div ng-repeat="site in sites | orderBy:'-upvotes'">
 	<span style="font-size: 20px; margin-left: 10px">
-		<a ng-show='post.link' href="{{post.link}}">
-			{{post.title}} <br />
+		<a ng-show='site.link' href="{{site.link}}">
+			{{site.title}} <br />
 		</a>
-		<span ng-hide='post.link'>
-			{{post.title}} <br />
+		<span ng-hide='site.link'>
+			{{site.title}} <br />
 		</span>
 	</span>
 	<span>
-		Posted by {{post.createdBy}} on {{post.createDate | date:'yyyy-MM-dd'}}
-		<a href="#/posts/{{post._id}}">Comments</a>
+		Posted by {{site.createdBy}} on {{site.createDate | date:'yyyy-MM-dd'}}
+		<a href="#/sites/{{site._id}}">Comments</a>
 	</span>
 	<br />
-	{{post.upVotes}}
-	<i ng-click="incrementUpvotes(post)" class="fa fa-thumbs-up"></i>
-	<i ng-click="decrementUpvotes(post)" class="fa fa-thumbs-down"></i>
-	{{post.body}} <br />
-	{{post.link}} <br /><br />
+	{{site.upVotes}}
+	<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
+	<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>
+	{{site.body}} <br />
+	{{site.link}} <br /><br />
 </div>
 <div>
 	<h2><a href="#/submit" ng-show="isLoggedIn()">Submit a new Blog Post</a></h2>

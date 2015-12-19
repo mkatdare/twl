@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var BlogPostSchema = new mongoose.Schema({
+var SiteSchema = new mongoose.Schema({
 	title: String,
 	body: String,
 	link: String,
@@ -8,10 +8,10 @@ var BlogPostSchema = new mongoose.Schema({
 	votesBy: [{type: String}],
 	createdBy: String,
 	createDate: Date,
-	comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'BlogComments'}]
+	reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'SiteReview'}]
 });
 
-BlogPostSchema.methods.upVote = function(username, cb){
+SiteSchema.methods.upVote = function(username, cb){
 	if (this.checkVotesBy(username)){
 		this.upVotes += 1;
 		this.votesBy.push(username);
@@ -19,7 +19,7 @@ BlogPostSchema.methods.upVote = function(username, cb){
 	}
 }
 
-BlogPostSchema.methods.downVote = function(username, cb){
+SiteSchema.methods.downVote = function(username, cb){
 	if (this.checkVotesBy(username)){
 		this.upVotes -= 1;
 		this.votesBy.push(username);
@@ -27,7 +27,7 @@ BlogPostSchema.methods.downVote = function(username, cb){
 	}
 }
 
-BlogPostSchema.methods.checkVotesBy = function(username){
+SiteSchema.methods.checkVotesBy = function(username){
 	for (var i = 0; i < this.votesBy.length; i++){
 		if (this.votesBy[i] === username){
 			return false;
@@ -36,4 +36,4 @@ BlogPostSchema.methods.checkVotesBy = function(username){
 	return true;
 }
 
-mongoose.model('Post', BlogPostSchema);
+mongoose.model('Site', SiteSchema);

@@ -1,31 +1,31 @@
 <div class="page-header">
 	<h3>
 		<span style="font-size: 20px; margin-left: 10px">
-			<a ng-show='post.link' href="{{post.link}}">
-				{{post.title}} <br />
+			<a ng-show='site.link' href="{{site.link}}">
+				{{site.title}} <br />
 			</a>
-			<span ng-hide='post.link'>
-				{{post.title}} <br />
+			<span ng-hide='site.link'>
+				{{site.title}} <br />
 			</span>
 		</span>
-		{{post.upVotes}}
-		<i ng-click="incrementUpvotes(post)" class="fa fa-thumbs-up"></i>
-		<i ng-click="decrementUpvotes(post)" class="fa fa-thumbs-down"></i>
+		{{site.upVotes}}
+		<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
+		<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>
 	</h3>
-	{{post.body}} <br />
-	{{post.link}} <br /><br />
+	{{site.body}} <br />
+	{{site.link}} <br /><br />
 </div>
-<div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
-	{{comment.upVotes}}
-	<i ng-click="incrementCommentvotes(post, comment)" class="fa fa-thumbs-up"></i>
-	<i ng-click="decrementCommentvotes(post, comment)" class="fa fa-thumbs-down"></i>
-	{{comment.author}}
+<div ng-repeat="review in site.reviews | orderBy:'-upvotes'">
+	{{review.upVotes}}
+	<i ng-click="incrementReviewvotes(site, review)" class="fa fa-thumbs-up"></i>
+	<i ng-click="decrementReviewvotes(site, review)" class="fa fa-thumbs-down"></i>
+	{{review.author}}
 	<span style="font-size: 20px; margin-left: 10px;">
-		{{comment.body}}
+		{{review.body}}
 	</span>
 </div>
-<form ng-show="isLoggedIn()" ng-submit="addComment()" style="margin-top: 30px;">
-	<br /><h4>Submit a new Comment</h4><br />
+<form ng-show="isLoggedIn()" ng-submit="addReview()" style="margin-top: 30px;">
+	<br /><h4>Submit a new Review</h4><br />
 	<div class="form-group">
 		Body: <input type="text" ng-model="body"></input><br />
 	</div>

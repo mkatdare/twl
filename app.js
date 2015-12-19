@@ -9,16 +9,16 @@ var db = require('./config/db.js');
 var passport = require('passport');
 
 //db models
-require('./models/blogPosts');
-require('./models/comments');
-require('./models/user');
+require('./models/siteSchema');
+require('./models/reviewSchema');
+require('./models/userSchema');
 
 //passport
 require('./config/passport');
 
 //routes
 var index = require('./routes/index');
-var blog = require('./routes/blog');
+var site = require('./routes/site');
 var auth = require('./routes/auth');
 var user = require('./routes/user');
 
@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
 app.use('/', index);
-app.use('/', blog);
+app.use('/', site);
 app.use('/', auth);
 app.use('/', user);
 

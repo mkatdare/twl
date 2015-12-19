@@ -11,18 +11,18 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl: '/views/site/home.html',
       controller: 'MainCtrl',
 	  resolve: {
-		  postPromise: ['blogposts', function(posts){
-			  return posts.getAll();
+		  postPromise: ['siteFact', function(sites){
+			  return sites.getAll();
 		  }]
 	  }
     })
-	.state('posts', {
-		url: '/posts/{id}',
+	.state('sites', {
+		url: '/sites/{id}',
 		templateUrl: '/views/site/site.html',
 		controller: 'PostCtrl',
 		resolve: {
-			post: ['$stateParams', 'blogposts', function($stateParams, posts){
-				return posts.get($stateParams.id);
+			site: ['$stateParams', 'siteFact', function($stateParams, sites){
+				return sites.get($stateParams.id);
 			}]
 		}
 	})
@@ -132,71 +132,71 @@ app.factory('userfact', ['$http', function($http, auth){
     return user;
 }]);
 
-app.factory('blogposts', ['$http', 'auth', function($http, auth){
+app.factory('siteFact', ['$http', 'auth', function($http, auth){
 	var o = {
-		posts: []
+		sites: []
 	};
 	o.getAll = function(){
-		return $http.get('/posts').success(function(data){
-			angular.copy(data, o.posts);
+		return $http.get('/sites').success(function(data){
+			angular.copy(data, o.sites);
 		});
 	};
 	o.get = function(id){
-		return $http.get('/posts/' + id).then(function(res){
+		return $http.get('/sites/' + id).then(function(res){
 			return res.data;
 		});
 	};
-	o.create = function(post){
+	o.create = function(site){
 		console.log ('Authorization: \'Bearer ' + auth.getToken());
-		return $http.post('/posts', post, {
+		return $http.post('/sites', site, {
 			headers: {
 				Authorization: 'Bearer ' + auth.getToken()
 			}
 		}).success(function(data){
-			o.posts.push(data);
+			o.sites.push(data);
 		});
 	};
-	o.createComment = function(id, comment){
-		return $http.post('/posts/' + id + '/comments', comment, {
+	o.createReview = function(id, review){
+		return $http.post('/sites/' + id + '/reviews', review, {
 			headers: {
 				Authorization: 'Bearer ' + auth.getToken()
 			}
 		});
 	};
-	o.upvote = function(post){
-		return $http.put('/posts/' + post._id + '/upvote', null, {
-			headers: {
-				Authorization: 'Bearer ' + auth.getToken()
-			}
-		}).success(function(data){
-			post.upVotes += 1;
-		});
-	};
-	o.downvote = function(post){
-		return $http.put('/posts/' + post._id + '/downvote', null, {
+	o.upvote = function(site){
+		return $http.put('/sites/' + site._id + '/upvote', null, {
 			headers: {
 				Authorization: 'Bearer ' + auth.getToken()
 			}
 		}).success(function(data){
-			post.upVotes -= 1;
+			site.upVotes += 1;
+		});
+	};
+	o.downvote = function(site){
+		return $http.put('/sites/' + site._id + '/downvote', null, {
+			headers: {
+				Authorization: 'Bearer ' + auth.getToken()
+			}
+		}).success(function(data){
+			site.upVotes -= 1;
 		})
 	}
-	o.upVoteComment = function(post, comment){
-		return $http.put('/posts/' + post._id + '/comments/' + comment._id + '/upvote', null, {
+	o.upVoteReview = function(site, review){
+		return $http.put('/sites/' + site._id + '/reviews/' + review._id + '/upvote', null, {
 			headers: {
 				Authorization: 'Bearer ' + auth.getToken()
 			}
 		}).success(function(data){
-			comment.upVotes += 1;
+			review.upVotes += 1;
 		})
 	}
-	o.downVoteComment = function(post, comment){
-		return $http.put('/posts/' + post._id + '/comments/' + comment._id + '/downvote', null, {
+	o.downVoteReview = function(site, review){
+		return $http.put('/sites/' + site._id + '/reviews/' + review._id + '/downvote', null, {
 			headers: {
 				Authorization: 'Bearer ' + auth.getToken()
 			}
 		}).success(function(data){
-			comment.upVotes -= 1;
+			review.upVotes -= 1;
 		})
 	}
 	return o;
@@ -247,64 +247,64 @@ app.controller('UserCtrl',[
 
 app.controller('PostCtrl', [
 	'$scope',
-	'blogposts',
-	'post',
+	'siteFact',
+	'site',
 	'auth',
-	function($scope, blogposts, post, auth){
-		$scope.post = post;
+	function($scope, siteFact, site, auth){
+		$scope.site = site;
 		$scope.isLoggedIn = auth.isLoggedIn;
         $scope.checkUserRole = auth.checkUserRole;
-		$scope.addComment = function(){
+		$scope.addReview = function(){
 			if (!$scope.body || $scope.body === ''){
 				return;
 			}
-			blogposts.createComment(post._id, {
+			siteFact.createReview(site._id, {
 				body: $scope.body,
 				createdBy: 'user'
-			}).success(function(comment){
-				$scope.post.comments.push(comment);
+			}).success(function(review){
+				$scope.site.reviews.push(review);
 			});
 			$scope.body = '';
 		};
-		$scope.incrementUpvotes = function(post){
-			blogposts.upvote(post);
+		$scope.incrementUpvotes = function(site){
+			siteFact.upvote(site);
 		};
-		$scope.decrementUpvotes = function(post){
-			blogposts.downvote(post);
+		$scope.decrementUpvotes = function(site){
+			siteFact.downvote(site);
 		};
-		$scope.incrementCommentvotes = function(post, comment){
-			blogposts.upVoteComment(post, comment);
+		$scope.incrementReviewvotes = function(site, review){
+			siteFact.upVoteReview(site, review);
 		};
-		$scope.decrementCommentvotes = function(post, comment){
-			blogposts.downVoteComment(post, comment);
+		$scope.decrementReviewvotes = function(site, review){
+			siteFact.downVoteReview(site, review);
 		};
 	}]);
 
 app.controller('MainCtrl', [
 '$scope',
-'blogposts',
+'siteFact',
 'auth',
-function($scope, blogposts, auth){
-	$scope.posts = blogposts.posts;
+function($scope, siteFact, auth){
+	$scope.sites = siteFact.sites;
 	$scope.isLoggedIn = auth.isLoggedIn;
-	$scope.incrementUpvotes = function(post){
-		blogposts.upvote(post);
+	$scope.incrementUpvotes = function(site){
+		siteFact.upvote(site);
 	};
-	$scope.decrementUpvotes = function(post){
-		blogposts.downvote(post);
+	$scope.decrementUpvotes = function(site){
+		siteFact.downvote(site);
 	};
 }]);
 
 app.controller('SubmitCtrl', [
 '$scope',
 '$state',
-'blogposts',
-function($scope, $state, blogposts){
-	$scope.addPost = function(){
+'siteFact',
+function($scope, $state, siteFact){
+	$scope.addSite = function(){
 		if (!$scope.title || $scope.title === ''){
 			return;
 		}
-		blogposts.create({
+		siteFact.create({
 			title: $scope.title,
 			link: $scope.link,
 			body: $scope.body,
