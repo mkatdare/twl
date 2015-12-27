@@ -56,8 +56,8 @@ function($stateProvider, $urlRouterProvider) {
         templateUrl: '/views/users/user.html',
         controller: 'UserCtrl',
         resolve: {
-            thisUser: ['$stateParams', 'userfact', function($stateParams, userfact){
-                return userfact.get($stateParams.id);
+            thisUser: ['$stateParams', 'userFact', function($stateParams, userFact){
+                return userFact.get($stateParams.id);
             }]
         }
     });
@@ -122,7 +122,7 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 	return auth;
 }]);
 
-app.factory('userfact', ['$http', function($http, auth){
+app.factory('userFact', ['$http', function($http, auth){
     var user = {};
     user.get = function(id){
         return $http.get('/user/' + id).then(function(res){
@@ -239,9 +239,9 @@ app.controller('NavCtrl', [
 app.controller('UserCtrl',[
     '$scope',
     '$state',
-    'userfact',
+    'userFact',
     'thisUser',
-    function($scope, $state, userfact, thisUser){
+    function($scope, $state, userFact, thisUser){
         $scope.thisUser = thisUser;
 }]);
 
