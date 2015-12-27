@@ -22,7 +22,8 @@
     "angular-ui-router": "~0.2.15",
     "font-awesome": "~4.5.0",
     "bootstrap": "~3.3.6",
-    "angular-image-upload": "~1.0.12"
+    "angular-image-upload": "~1.0.12",
+    "angularUtils-pagination": "angular-utils-pagination#~0.9.3"
   },
   "resolutions": {
     "angular": "~1.4.8"

@@ -1,39 +1,40 @@
 var mongoose = require('mongoose');
 
 var SiteSchema = new mongoose.Schema({
-	title: String,
-	body: String,
-	link: String,
-	upVotes: {type: Number, default: 0},
-	votesBy: [{type: String}],
-	createdBy: String,
-	createDate: Date,
+	name: String,
+	status: {type: String, enum: ['Active', 'Inactive'], default: 'Active'},
+	logoUrl: String,
+	winAppUrl: String,
+	appleAppUrl: String,
+	androidAppUrl: String,
+	description: String,
+	detailedDescription: String,
+	url: String,
+	dealsUrl: String,
+	serviceType: String,
+	servicesOffered: String,
+	subServices: String,
+	alexaRanking: String,
+	contactNumber: String,
+	customerSupportId: String,
+	customerSupportLink: String,
+	paymentOptions: String,
+	deliveryOptions: String,
+	country: String,
+	locationsCovered: String,
+	minDeliveryDays: Number,
+	maxDeliveryDays: Number,
+	returnPolicy: String,
+	traffic: String,
+	rating: {type: Number, min: 0.0, max: 5.0, default: 0.0},
+	numRatings: {type: Number, default: 0},
+	createdBy: {type: String, default: 'admin'},
+	createDate: {type: Date, default: Date.now},
+	numReviews: {type: Number, default: 0},
 	reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'SiteReview'}]
+},
+{
+	collection: 'sites'
 });
-
-SiteSchema.methods.upVote = function(username, cb){
-	if (this.checkVotesBy(username)){
-		this.upVotes += 1;
-		this.votesBy.push(username);
-		this.save(cb);
-	}
-}
-
-SiteSchema.methods.downVote = function(username, cb){
-	if (this.checkVotesBy(username)){
-		this.upVotes -= 1;
-		this.votesBy.push(username);
-		this.save(cb);
-	}
-}
-
-SiteSchema.methods.checkVotesBy = function(username){
-	for (var i = 0; i < this.votesBy.length; i++){
-		if (this.votesBy[i] === username){
-			return false;
-		}
-	}
-	return true;
-}
 
 mongoose.model('Site', SiteSchema);

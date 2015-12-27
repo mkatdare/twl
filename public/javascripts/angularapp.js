@@ -1,4 +1,4 @@
-var app = angular.module('twl', ['ui.router']);
+var app = angular.module('twl', ['ui.router', 'angularUtils.directives.dirPagination']);
 
 app.config([
 '$stateProvider',
@@ -286,6 +286,7 @@ app.controller('MainCtrl', [
 'auth',
 function($scope, siteFact, auth){
 	$scope.sites = siteFact.sites;
+	$scope.currentPage = 1;
 	$scope.isLoggedIn = auth.isLoggedIn;
 	$scope.incrementUpvotes = function(site){
 		siteFact.upvote(site);
@@ -305,15 +306,14 @@ function($scope, $state, siteFact){
 			return;
 		}
 		siteFact.create({
-			title: $scope.title,
-			link: $scope.link,
-			body: $scope.body,
+			name: $scope.name,
+			url: $scope.url,
+			description: $scope.description,
 			createDate: new Date(),
-			upVotes: 0
 		});
-		$scope.title = '';
-		$scope.body = '';
-		$scope.link = '';
+		$scope.name = '';
+		$scope.description = '';
+		$scope.url = '';
 		$state.go('home', {});
 	};
 }]);

@@ -1,19 +1,19 @@
 <div class="page-header">
 	<h3>
 		<span style="font-size: 20px; margin-left: 10px">
-			<a ng-show='site.link' href="{{site.link}}">
-				{{site.title}} <br />
+			<a ng-show='site.url' href="{{site.url}}">
+				{{site.name}} <br />
 			</a>
-			<span ng-hide='site.link'>
-				{{site.title}} <br />
+			<span ng-hide='site.url'>
+				{{site.url}} <br />
 			</span>
 		</span>
-		{{site.upVotes}}
+		{{site.rating}}
 		<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
 		<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>
 	</h3>
-	{{site.body}} <br />
-	{{site.link}} <br /><br />
+	{{site.description}} <br />
+	{{site.url}} <br /><br />
 </div>
 <div ng-repeat="review in site.reviews | orderBy:'-upvotes'">
 	{{review.upVotes}}
