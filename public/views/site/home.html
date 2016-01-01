@@ -15,13 +15,13 @@
 		<a href="#/sites/{{site._id}}">Reviews</a>
 	</span>
 	<br />
-	{{site.rating}}
-	<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
-	<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>
+	Rating: {{site.rating}} | Category: {{site.serviceType}}
+	<!--<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
+	<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>-->
 	<br />{{site.description}} <br />
 	{{site.url}} <br /><br />
 </div>
-<dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)" template-url="/javascripts/vendor/angularUtils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+<dir-pagination-controls on-page-change="pageChangeHandler(newPageNumber)" template-url="/javascripts/vendor/angularUtils-pagination/dirPagination.tpl.html" boundary-links="true"></dir-pagination-controls>
 <div>
 	<h2><a href="#/submit" ng-show="isLoggedIn()">Submit a new Blog Post</a></h2>
 </div>
