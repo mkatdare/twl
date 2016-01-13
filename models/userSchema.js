@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
-var dialog = require('dialog');
 
 var UserSchema = new mongoose.Schema({
 	username: {type: String, lowercase: true, unique: true},
@@ -13,7 +12,9 @@ var UserSchema = new mongoose.Schema({
     mailid: String,
 	rating: {type: Number, default: 0},
     points: {type: Number, default: 0},
-    profilePhoto: {data: Buffer, type: String}
+    profilePhoto: {data: Buffer, type: String},
+	gender: {type: String, enum: ['Male', 'Female']},
+	dateOfBirth: Date
 });
 
 UserSchema.methods.setPassword = function(password){

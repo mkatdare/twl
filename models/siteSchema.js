@@ -27,10 +27,8 @@ var SiteSchema = new mongoose.Schema({
 	returnPolicy: String,
 	traffic: String,
 	rating: {type: Number, min: 0.0, max: 5.0, default: 0.0},
-	numRatings: {type: Number, default: 0},
 	createdBy: {type: String, default: 'admin'},
 	createDate: {type: Date, default: Date.now},
-	numReviews: {type: Number, default: 0},
 	reviews: [{type: mongoose.Schema.Types.ObjectId, ref: 'SiteReview'}]
 },
 {

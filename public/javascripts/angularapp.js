@@ -1,3 +1,4 @@
+'use strict';
 var app = angular.module('twl', ['ui.router', 'angularUtils.directives.dirPagination']);
 
 app.config([
@@ -21,7 +22,7 @@ function($stateProvider, $urlRouterProvider) {
 		templateUrl: '/views/site/site.html',
 		controller: 'PostCtrl',
 		resolve: {
-			site: ['$stateParams', 'siteFact', function($stateParams, sites){
+			retval: ['$stateParams', 'siteFact', function($stateParams, sites){
 				return sites.get($stateParams.id);
 			}]
 		}
@@ -89,7 +90,7 @@ app.factory('auth', ['$http', '$window', function($http, $window){
 			return payload.username;
 		}
 		else {
-			return '';
+			return null;
 		}
 	};
     auth.userDetails = function(){
@@ -142,7 +143,7 @@ app.factory('siteFact', ['$http', 'auth', function($http, auth){
 		});
 	};
 	o.get = function(id){
-		return $http.get('/sites/' + id).then(function(res){
+		return $http.get('/sites/' + id + "/" + auth.currentUser()).then(function(res){
 			return res.data;
 		});
 	};
@@ -163,6 +164,13 @@ app.factory('siteFact', ['$http', 'auth', function($http, auth){
 			}
 		});
 	};
+	o.updateReview = function(site, review, updatedReview){
+		return $http.put('/sites/' + site._id + '/reviews/' + review._id + '/update', updatedReview, {
+			headers: {
+				Authorization: 'Bearer ' + auth.getToken()
+			}
+		});
+	}
 	o.upvote = function(site){
 		return $http.put('/sites/' + site._id + '/upvote', null, {
 			headers: {
@@ -247,24 +255,57 @@ app.controller('UserCtrl',[
 
 app.controller('PostCtrl', [
 	'$scope',
+	'$filter',
 	'siteFact',
-	'site',
+	'retval',
 	'auth',
-	function($scope, siteFact, site, auth){
-		$scope.site = site;
+	function($scope, $filter, siteFact, retval, auth){
+		$scope.retval = retval;
 		$scope.isLoggedIn = auth.isLoggedIn;
+		$scope.currUserReview = null;
         $scope.checkUserRole = auth.checkUserRole;
+		if (!(retval.currUserReview === null)){
+			$scope.updatedBody = retval.currUserReview.body;
+			$scope.updatedTitle = retval.currUserReview.title;
+			$scope.updatedRating = retval.currUserReview.rating;
+			$scope.currUserReview = retval.currUserReview;
+		}
+		
 		$scope.addReview = function(){
 			if (!$scope.body || $scope.body === ''){
 				return;
 			}
-			siteFact.createReview(site._id, {
+			siteFact.createReview(retval.site._id, {
 				body: $scope.body,
-				createdBy: 'user'
-			}).success(function(review){
-				$scope.site.reviews.push(review);
+				title: $scope.title,
+				newRating: $scope.newRating
+			}).success(function(res){
+				$scope.retval.site.reviews.push(res.review);
+				$scope.retval.site.rating = res.rating;
+				$scope.currUserReview = res.review;
+				$scope.updatedBody = res.review.body;
+				$scope.updatedTitle = res.review.title;
+				$scope.updatedRating = res.review.rating;
 			});
 			$scope.body = '';
+			$scope.title = '';
+			$scope.rating = 0;
+		};
+		$scope.updateReview = function(){
+			if (!$scope.updatedBody || $scope.updatedBody === ''){
+				return;
+			}
+			siteFact.updateReview(retval.site, $scope.currUserReview, {
+				body: $scope.updatedBody,
+				title: $scope.updatedTitle,
+				newRating: $scope.updatedRating
+			}).success(function(res){
+				var index = $scope.retval.site.reviews.indexOf($filter('filter')($scope.retval.site.reviews, {createdBy: auth.currentUser()}, true)[0]);
+				console.log(res);
+				$scope.retval.site.reviews[index] = res.review;
+				$scope.currUserReview = res.review;
+				$scope.retval.site.rating = res.rating;
+			});
 		};
 		$scope.incrementUpvotes = function(site){
 			siteFact.upvote(site);

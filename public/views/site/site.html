@@ -1,33 +1,43 @@
 <div class="page-header">
 	<h3>
 		<span style="font-size: 20px; margin-left: 10px">
-			<a ng-show='site.url' href="{{site.url}}">
-				{{site.name}} <br />
+			<a ng-show='retval.site.url' href="{{retval.site.url}}">
+				{{retval.site.name}} <br />
 			</a>
-			<span ng-hide='site.url'>
-				{{site.url}} <br />
+			<span ng-hide='retval.site.url'>
+				{{retval.site.url}} <br />
 			</span>
 		</span>
-		{{site.rating}}
-		<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
-		<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>
+		Rating: {{retval.site.rating | number: 2}}
+		<span ng-if="!(currUserReview === null)"> | Your Rating: {{currUserReview.rating | number: 2}}</span>
+		<!--<i ng-click="incrementUpvotes(site)" class="fa fa-thumbs-up"></i>
+		<i ng-click="decrementUpvotes(site)" class="fa fa-thumbs-down"></i>-->
 	</h3>
-	{{site.description}} <br />
-	<a href="{{site.url}}">URL</a> <br /><br />
+	{{retval.site.description}} <br />
+	<a href="{{retval.site.url}}">URL</a> <br /><br />
 </div>
-<div ng-repeat="review in site.reviews | orderBy:'-upvotes'">
-	{{review.upVotes}}
-	<i ng-click="incrementReviewvotes(site, review)" class="fa fa-thumbs-up"></i>
-	<i ng-click="decrementReviewvotes(site, review)" class="fa fa-thumbs-down"></i>
-	{{review.author}}
+<div ng-repeat="review in retval.site.reviews | orderBy:'-upvotes'">
+	Rating: {{review.rating}} | 
+	{{review.createdBy}}
 	<span style="font-size: 20px; margin-left: 10px;">
 		{{review.body}}
 	</span>
 </div>
-<form ng-show="isLoggedIn()" ng-submit="addReview()" style="margin-top: 30px;">
+<form ng-show="isLoggedIn() && (currUserReview === null)" ng-submit="addReview()" style="margin-top: 30px;">
 	<br /><h4>Submit a new Review</h4><br />
 	<div class="form-group">
+		Rating: <input type="number" step="0.5" min="1" max="5" ng-model="newRating"></input><br />
+		Title: <input type="text" ng-model="title"></input><br />
 		Body: <input type="text" ng-model="body"></input><br />
+	</div>
+	<button type="submit" class="btn btn-primary">Post</button>
+</form>
+<form ng-show="isLoggedIn() && !(currUserReview === null)" ng-submit="updateReview()" style="margin-top: 30px;">
+	<br /><h4>Update your Review</h4><br />
+	<div class="form-group">
+		Rating: <input type="number" step="0.5" min="1" max="5" ng-model="updatedRating"></input><br />
+		Title: <input type="text" ng-model="updatedTitle"></input><br />
+		Body: <input type="text" ng-model="updatedBody"></input><br />
 	</div>
 	<button type="submit" class="btn btn-primary">Post</button>
 </form>
