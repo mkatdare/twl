@@ -1,3 +1,3 @@
 module.exports = {
-	'url': 'mongodb://localhost:27017/twldb'
+	'url': 'mongodb://twladmin:bodmas@ds045465.mongolab.com:45465/twl'
 }
